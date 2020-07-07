@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+{% block content %}
+
+  {% block content_header %}
+
+ {% for message in messages %}
+
+  <div class="alert alert-danger">
+
+    <strong>Analysis completed!!!</strong> {{message}}
+
+
+    {% endfor %}
+    <!--
+{% for book in books %}
+    {% if i in a %}
+    <form method="post" action="{% url 'delete_book' book.pk %}">
+      {% url 'delete_book' book.pk %}
+      {% csrf_token %}
+      <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+    </form>
+    {% else %}
+    {{book.title}}
+      <h2>no</h2>
+    {% endif %}
+{% endfor %}-->
+  </div>
+
+    <h2>List</h2>
+    <p>
+      <a href="{% url 'upload_book' %}" class="btn btn-primary">Upload File</a>
+    </p>
+  {% endblock %}
+
+  <table class="table mb-0">
+    <thead>
+      <tr>
+        <!--th>Cover</th-->
+        <th>Title</th>
+        <th>From</th>
+        <th>Download</th>
+        <th>Delete</th>
+
+
+      </tr>
+    </thead>
+    <tbody>
+      {% for book in books %}
+      {% if user.first_name == book.author %}
+        <tr>
+          <!--td>
+            {% if book.cover %}
+              <img src="{{ book.cover.url }}" alt="{{ book.title }}" style="width:100px;">
+            {% else %}
+              <span class="text-muted">No cover</span>
+            {% endif %}
+          </td-->
+          <td>{{ book.title }}</td>
+
+          <td>{{book.From}}</td>
+
+
+          <td>
+            <a href="{{ book.file.url }}" class="btn btn-primary btn-sm" target="_blank">
+              Download
+            </a>
+          </td>
+          <td>
+            <form method="post" action="{% url 'delete_book' book.pk %}">
+              {% csrf_token %}
+              <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+
+
+            </form>
+          </td>
+          {% endif %}
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}
